@@ -10,4 +10,9 @@ module.exports = class LESSCompiler
     null
 
   compile: (data, path, callback) ->
-    less.render data, callback
+    parser = new less.Parser
+      paths: [@config.rootPath, (sysPath.dirname path)],
+      filename: path
+    parser.parse data, (error, tree) =>
+      return callback error.message if error?
+      callback null, tree.toCSS()
