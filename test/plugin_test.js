@@ -23,4 +23,15 @@ describe('Plugin', function() {
       done();
     });
   });
+
+  it('should handle invalid less gracefully', function(done) {
+    var content = '#header {color: @color;}';
+    var expected = "NameError:variable @color is undefined in 'style.less:1:16'"
+
+    plugin.compile(content, 'style.less', function(error, data) {
+      expect(error).to.be.ok();
+      expect(error).to.equal(expected);
+      done();
+    });
+  });
 });
