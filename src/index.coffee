@@ -11,7 +11,7 @@ module.exports = class LESSCompiler
 
   compile: (data, path, callback) ->
     parser = new less.Parser
-      paths: [@config.rootPath, (sysPath.dirname path)],
+      paths: [@config.paths.root, (sysPath.dirname path)],
       filename: path
     parser.parse data, (error, tree) =>
       return callback error.message if error?
