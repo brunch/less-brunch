@@ -15,4 +15,11 @@ module.exports = class LESSCompiler
       filename: path
     parser.parse data, (error, tree) =>
       return callback error.message if error?
-      callback null, tree.toCSS()
+
+      try
+        callback null, tree.toCSS()
+      catch ex
+        errStr =  "#{ex.type}Error:#{ex.message}"
+        if ex.filename
+          errStr += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
+        callback errStr
