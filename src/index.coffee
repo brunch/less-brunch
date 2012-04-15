@@ -19,7 +19,7 @@ module.exports = class LESSCompiler
       try
         callback null, tree.toCSS()
       catch ex
-        errStr =  "#{ex.type}Error:#{ex.message}"
+        errStr = "#{ex.type}Error:#{ex.message}"
         if ex.filename
           errStr += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
         callback errStr
