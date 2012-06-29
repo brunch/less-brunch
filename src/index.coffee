@@ -5,6 +5,7 @@ module.exports = class LESSCompiler
   brunchPlugin: yes
   type: 'stylesheet'
   extension: 'less'
+  _dependencyRegExp: /@import ['"](.*)['"]/g
 
   constructor: (@config) ->
     null
@@ -25,3 +26,21 @@ module.exports = class LESSCompiler
         if ex.filename
           err += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
       callback err, result
+
+  getDependencies: (data, path, callback) =>
+    paths = data.match(@_dependencyRegExp) or []
+    parent = sysPath.dirname path
+    dependencies = paths
+      .map (path) =>
+        res = @_dependencyRegExp.exec(path)
+        @_dependencyRegExp.lastIndex = 0
+        (res or [])[1]
+      .filter((path) => !!path)
+      .map (path) =>
+        if sysPath.extname(path) isnt ".#{@extension}"
+          path + ".#{@extension}"
+        else
+          path
+      .map(sysPath.join.bind(null, parent))
+    process.nextTick =>
+      callback null, dependencies
