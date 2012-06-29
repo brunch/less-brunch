@@ -6,11 +6,11 @@ describe('Plugin', function() {
   });
 
   it('should be an object', function() {
-    expect(plugin).to.be.ok();
+    expect(plugin).to.be.ok;
   });
 
   it('should has #compile method', function() {
-    expect(plugin.compile).to.be.a(Function);
+    expect(plugin.compile).to.be.an.instanceof(Function);
   });
 
   it('should compile and produce valid result', function(done) {
@@ -18,7 +18,7 @@ describe('Plugin', function() {
     var expected = '#header {\n  color: #4d926f;\n}\n';
 
     plugin.compile(content, 'style.less', function(error, data) {
-      expect(error).not.to.be.ok();
+      expect(error).not.to.be.ok;
       expect(data).to.equal(expected)
       done();
     });
@@ -29,7 +29,7 @@ describe('Plugin', function() {
     var expected = "NameError:variable @color is undefined in 'style.less:1:16'"
 
     plugin.compile(content, 'style.less', function(error, data) {
-      expect(error).to.be.ok();
+      expect(error).to.be.ok;
       expect(error).to.equal(expected);
       done();
     });
