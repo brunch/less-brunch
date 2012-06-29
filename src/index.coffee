@@ -15,11 +15,13 @@ module.exports = class LESSCompiler
       filename: path
     parser.parse data, (error, tree) =>
       return callback error.message if error?
+      result = null
+      err = null
 
       try
-        callback null, tree.toCSS()
+        result = tree.toCSS()
       catch ex
-        errStr = "#{ex.type}Error:#{ex.message}"
+        err = "#{ex.type}Error:#{ex.message}"
         if ex.filename
-          errStr += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
-        callback errStr
+          err += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
+      callback err, result
