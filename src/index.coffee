@@ -5,7 +5,7 @@ module.exports = class LESSCompiler
   brunchPlugin: yes
   type: 'stylesheet'
   extension: 'less'
-  _dependencyRegExp: /@import ['"](.*)['"]/g
+  _dependencyRegExp: /^ *@import ['"](.*)['"]/
 
   constructor: (@config) ->
     null
@@ -28,19 +28,26 @@ module.exports = class LESSCompiler
       callback err, result
 
   getDependencies: (data, path, callback) =>
-    paths = data.match(@_dependencyRegExp) or []
     parent = sysPath.dirname path
-    dependencies = paths
-      .map (path) =>
-        res = @_dependencyRegExp.exec(path)
-        @_dependencyRegExp.lastIndex = 0
-        (res or [])[1]
-      .filter((path) => !!path)
+    dependencies = data
+      .split('\n')
+      .map (line) =>
+        line.match(@_dependencyRegExp)
+      .filter (match) =>
+        match?.length > 0
+      .map (match) =>
+        match[1]
+      .filter (path) =>
+        !!path and path isnt 'nib'
       .map (path) =>
         if sysPath.extname(path) isnt ".#{@extension}"
           path + ".#{@extension}"
         else
           path
-      .map(sysPath.join.bind(null, parent))
+      .map (path) =>
+        if path.charAt(0) is '/'
+          sysPath.join @config.paths.root, path[1..]
+        else
+          sysPath.join parent, path
     process.nextTick =>
       callback null, dependencies
