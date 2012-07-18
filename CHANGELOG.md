@@ -1,3 +1,6 @@
+# less-brunch 1.4.0 (July 18, 2012)
+* Added absolute paths support.
+
 # less-brunch 1.3.1 (June 29, 2012)
 * Added chain compilation support.
 
