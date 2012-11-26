@@ -1,3 +1,6 @@
+# less-brunch 1.4.1 (November 26, 2012)
+* Updated LESS to latest 1.3.
+
 # less-brunch 1.4.0 (July 18, 2012)
 * Added absolute paths support.
 

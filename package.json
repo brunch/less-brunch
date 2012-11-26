@@ -1,6 +1,6 @@
 {
   "name": "less-brunch",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Adds LESS support to brunch.",
   "author": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/brunch/less-brunch",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "coffee-script": "1.3.3",
-    "less": "1.3.0"
+    "less": "1.3.x"
   },
   "devDependencies": {
     "mocha": "1.2.2",
