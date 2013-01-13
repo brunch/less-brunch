@@ -1,3 +1,6 @@
+# less-brunch 1.5.0 (January 13, 2012)
+* Improved installation process.
+
 # less-brunch 1.4.1 (November 26, 2012)
 * Updated LESS to latest 1.3.
 
