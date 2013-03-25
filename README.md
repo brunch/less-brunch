@@ -9,3 +9,12 @@ Pick a plugin version that corresponds to your minor (y) brunch version.
 
 If you want to use git version of plugin, add
 `"less-brunch": "git+ssh://git@github.com:brunch/less-brunch.git"`.
+
+### Options
+Print source-file references in output via brunch config (supported options: ['comments', 'mediaquery', 'all']):
+```
+config:
+  plugins:
+    less:
+      dumpLineNumbers: 'comments'
+```
