@@ -13,7 +13,8 @@ module.exports = class LESSCompiler
   compile: (data, path, callback) ->
     parser = new less.Parser
       paths: [@config.paths.root, (sysPath.dirname path)],
-      filename: path
+      filename: path,
+      dumpLineNumbers: if @config.optimize then null else @config.plugins?.less?.dumpLineNumbers
     parser.parse data, (error, tree) =>
       return callback error.message if error?
       result = null

@@ -18,4 +18,3 @@ config:
     less:
       dumpLineNumbers: 'comments'
 ```
-
