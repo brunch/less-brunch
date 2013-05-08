@@ -14,8 +14,8 @@ Or, do manual install:
 
 ### Options
 Print source-file references in output via brunch config (supported options: ['comments', 'mediaquery', 'all']):
-```
-config:
+```coffeescript
+config =
   plugins:
     less:
       dumpLineNumbers: 'comments'
