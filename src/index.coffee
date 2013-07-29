@@ -1,14 +1,14 @@
 less = require 'less'
 sysPath = require 'path'
+progeny = require 'progeny'
 
 module.exports = class LESSCompiler
   brunchPlugin: yes
   type: 'stylesheet'
   extension: 'less'
-  _dependencyRegExp: /^ *@import ['"](.*)['"]/
 
   constructor: (@config) ->
-    null
+    @getDependencies = progeny()
 
   compile: (data, path, callback) ->
     parser = new less.Parser
@@ -27,28 +27,3 @@ module.exports = class LESSCompiler
         if ex.filename
           err += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
       callback err, result
-
-  getDependencies: (data, path, callback) =>
-    parent = sysPath.dirname path
-    dependencies = data
-      .split('\n')
-      .map (line) =>
-        line.match(@_dependencyRegExp)
-      .filter (match) =>
-        match?.length > 0
-      .map (match) =>
-        match[1]
-      .filter (path) =>
-        !!path and path isnt 'nib'
-      .map (path) =>
-        if sysPath.extname(path) isnt ".#{@extension}"
-          path + ".#{@extension}"
-        else
-          path
-      .map (path) =>
-        if path.charAt(0) is '/'
-          sysPath.join @config.paths.root, path[1..]
-        else
-          sysPath.join parent, path
-    process.nextTick =>
-      callback null, dependencies
