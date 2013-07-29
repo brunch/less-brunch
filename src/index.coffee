@@ -8,7 +8,7 @@ module.exports = class LESSCompiler
   extension: 'less'
 
   constructor: (@config) ->
-    @getDependencies = progeny()
+    @getDependencies = progeny rootPath: @config.paths.root
 
   compile: (data, path, callback) ->
     parser = new less.Parser
