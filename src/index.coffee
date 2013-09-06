@@ -10,7 +10,7 @@ module.exports = class LESSCompiler
   constructor: (@config) ->
     @getDependencies = progeny rootPath: @config.paths.root
 
-  compile: (data, path, callback) ->
+  compile: ({data, path}, callback) ->
     parser = new less.Parser
       paths: [@config.paths.root, (sysPath.dirname path)],
       filename: path,
@@ -26,4 +26,4 @@ module.exports = class LESSCompiler
         err = "#{ex.type}Error:#{ex.message}"
         if ex.filename
           err += " in '#{ex.filename}:#{ex.line}:#{ex.column}'"
-      callback err, result
+      callback err, data: result
