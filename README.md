@@ -12,6 +12,8 @@ Or, do manual install:
 * If you want to use git version of plugin, add
 `"less-brunch": "git+ssh://git@github.com:brunch/less-brunch.git"`.
 
+**Important Note:** v1.7.0 is not compatible with pre-1.7.0 versions of brunch. If installing the latest version of less-brunch, please ensure your brunch is at a compatible version with `brunch --version`.
+
 ### Options
 Print source-file references in output via brunch config (supported options: ['comments', 'mediaquery', 'all']):
 ```coffeescript
