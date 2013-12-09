@@ -1,3 +1,6 @@
+# less-brunch 1.7.1 (9 December 2013)
+* Updated LESS to latest (1.5.x)
+
 # less-brunch 1.7.0 (6 September 2013)
 * Updated LESS to latest (1.4.x)
 * Use latest brunch plugin API standards
