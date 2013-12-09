@@ -17,9 +17,9 @@ describe('Plugin', function() {
     var content = '@color: #4D926F; #header {color: @color;}';
     var expected = '#header {\n  color: #4d926f;\n}\n';
 
-    plugin.compile(content, 'style.less', function(error, data) {
+    plugin.compile({data: content, path: 'style.less'}, function(error, result) {
       expect(error).not.to.be.ok;
-      expect(data).to.equal(expected)
+      expect(result.data).to.equal(expected)
       done();
     });
   });
@@ -28,7 +28,7 @@ describe('Plugin', function() {
     var content = '#header {color: @color;}';
     var expected = "NameError:variable @color is undefined in 'style.less:1:16'"
 
-    plugin.compile(content, 'style.less', function(error, data) {
+    plugin.compile({data: content, path: 'style.less'}, function(error, result) {
       expect(error).to.be.ok;
       expect(error).to.equal(expected);
       done();
