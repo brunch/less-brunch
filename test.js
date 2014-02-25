@@ -1,3 +1,6 @@
+var expect = require('chai').expect;
+var Plugin = require('./');
+
 describe('Plugin', function() {
   var plugin;
 
@@ -26,7 +29,7 @@ describe('Plugin', function() {
 
   it('should handle invalid less gracefully', function(done) {
     var content = '#header {color: @color;}';
-    var expected = "NameError:variable @color is undefined in 'style.less:1:16'"
+    var expected = 'NameError:variable @color is undefined in "style.less:1:16"';
 
     plugin.compile({data: content, path: 'style.less'}, function(error, result) {
       expect(error).to.be.ok;
