@@ -1,14 +1,14 @@
 {
   "name": "less-brunch",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Adds LESS support to brunch.",
   "author": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/brunch/less-brunch",
+  "keywords": ["brunchplugin", "less", "stylesheet"],
   "repository": {
     "type": "git",
     "url": "git@github.com:brunch/less-brunch.git"
   },
-  "main": "./lib/index",
   "scripts": {
     "test": "node_modules/.bin/mocha"
   },

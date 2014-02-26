@@ -1,3 +1,6 @@
+# less-brunch 1.7.2 (26 February 2014)
+* Updated LESS to 1.6.
+
 # less-brunch 1.7.1 (9 December 2013)
 * Updated LESS to latest (1.5.x)
 
