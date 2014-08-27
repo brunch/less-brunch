@@ -21,7 +21,7 @@ LESSCompiler.prototype.compile = function(params, callback) {
   var path = params.path;
 
   var parser = new less.Parser({
-    paths: [this.rootPath, sysPath.dirname(path)],
+    paths: [this.rootPath, sysPath.dirname(path)].concat(this.config.paths || []),
     filename: path,
     dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
   });
@@ -39,7 +39,7 @@ LESSCompiler.prototype.compile = function(params, callback) {
     }
 
     return callback(err, {data: result});
-  });
+  }, this.config.addtionalData || {});
 };
 
 module.exports = LESSCompiler;
