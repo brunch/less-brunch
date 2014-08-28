@@ -39,7 +39,7 @@ LESSCompiler.prototype.compile = function(params, callback) {
     }
 
     return callback(err, {data: result});
-  }, this.config.addtionalData || {});
+  }, this.config.additionalData || {});
 };
 
 module.exports = LESSCompiler;
