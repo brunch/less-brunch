@@ -22,7 +22,7 @@ Print source-file references in output via brunch config (supported options: ['c
          less:
            dumpLineNumbers: 'comments'
            paths: ['path1', 'path2']
-           addtionalData:
+           additionalData:
               modifyVars:
                 "@firstVar": "red"
                 "@basePath": "\"filePath\""
