@@ -17,10 +17,19 @@ Or, do manual install:
 ### Options
 Print source-file references in output via brunch config (supported options: ['comments', 'mediaquery', 'all']):
 ```coffeescript
-config =
-  plugins:
-    less:
-      dumpLineNumbers: 'comments'
+     config =
+       plugins:
+         less:
+           dumpLineNumbers: 'comments'
+           paths: ['path1', 'path2]
+           addtionalData:
+              modifyVars:
+                "@firstVar": "red"
+                "@basePath": "\"filePath\""
+              globalVars:
+                var1: '"string value"',
+                var2: 'regular value'
+          
 ```
 
 ## License
