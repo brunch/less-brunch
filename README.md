@@ -21,7 +21,7 @@ Print source-file references in output via brunch config (supported options: ['c
        plugins:
          less:
            dumpLineNumbers: 'comments'
-           paths: ['path1', 'path2]
+           paths: ['path1', 'path2']
            addtionalData:
               modifyVars:
                 "@firstVar": "red"
