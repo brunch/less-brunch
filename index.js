@@ -1,7 +1,6 @@
 var less = require('less');
 var sysPath = require('path');
 var progeny = require('progeny');
-var fs = require('fs');
 
 function LESSCompiler(config) {
   if (config == null) config = {};
@@ -19,11 +18,9 @@ LESSCompiler.prototype.extension = 'less';
 
 LESSCompiler.prototype.compile = function(params, callback) {
   var path = params.path;
-  
-  var filePath = sysPath.join(this.rootPath, path);
-  var fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
-
-  less.render(fileContent
+  var data = params.data;
+ 
+  less.render(data
     , {
         paths: [this.rootPath, sysPath.dirname(path)].concat(this.config.paths || []),  
         filename: path, 
