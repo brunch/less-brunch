@@ -17,11 +17,11 @@ LESSCompiler.prototype.type = 'stylesheet';
 LESSCompiler.prototype.extension = 'less';
 
 LESSCompiler.prototype.compile = function(params, callback) {
-  var path = params.path;
   var data = params.data;
+  var path = params.path;
 
   less.render(data, {
-    paths: [this.rootPath, sysPath.dirname(path)].concat(this.config.paths || []),
+    paths: [this.rootPath, sysPath.dirname(path)],
     filename: path,
     dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
   }, function(error, output) {
