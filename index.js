@@ -20,25 +20,22 @@ LESSCompiler.prototype.compile = function(params, callback) {
   var data = params.data;
   var path = params.path;
 
-  var parser = new less.Parser({
+  less.render(data, {
     paths: [this.rootPath, sysPath.dirname(path)],
     filename: path,
     dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
-  });
-
-  parser.parse(data, function(error, tree) {
-    if (error != null) return callback(error.message);
-    var result, err;
-    try {
-      result = tree.toCSS();
-    } catch (ex) {
-      err = '' + ex.type + 'Error:' + ex.message;
-      if (ex.filename) {
-        err += ' in "' + ex.filename + ':' + ex.line + ':' + ex.column + '"';
+  }, function(error, output) {
+    if (error != null) {
+      var err;
+      err = '' + error.type + 'Error:' + error.message;
+      if (error.filename) {
+        err += ' in "' + error.filename + ':' + error.line + ':' + error.column + '"';
       }
+      return callback(err);
     }
-
-    return callback(err, {data: result});
+    return callback(error, {
+      data: output.css
+    });
   });
 };
 
