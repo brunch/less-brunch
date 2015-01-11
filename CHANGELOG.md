@@ -1,3 +1,7 @@
+# less-brunch 1.8.0 (11 January 2015)
+* Updated LESS to ^2.2.0
+* Still compatible with Brunch v1.7.x
+
 # less-brunch 1.7.2 (26 February 2014)
 * Updated LESS to 1.6.
 
