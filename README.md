@@ -3,24 +3,16 @@ Adds [LESS](http://lesscss.org/) support to
 [brunch](http://brunch.io).
 
 ## Usage
-Install the plugin via npm with `npm install --save less-brunch`.
-
-Or, do manual install:
-
-* Add `"less-brunch": "x.y.z"` to `package.json` of your brunch app.
-  Pick a plugin version that corresponds to your minor (y) brunch version.
-* If you want to use git version of plugin, add
-`"less-brunch": "git+ssh://git@github.com:brunch/less-brunch.git"`.
-
-**Important Note:** v1.7.0 is not compatible with pre-1.7.0 versions of brunch. If installing the latest version of less-brunch, please ensure your brunch is at a compatible version with `brunch --version`.
+`npm install --save less-brunch`
 
 ### Options
-Print source-file references in output via brunch config (supported options: ['comments', 'mediaquery', 'all']):
-```coffeescript
-config =
+Print source-file references in output by setting `dumpLineNumbers` in your
+`brunch-config`:
+
+```coffee
   plugins:
     less:
-      dumpLineNumbers: 'comments'
+      dumpLineNumbers: 'comments' # other options: 'mediaquery', 'all'
 ```
 
 ## License
