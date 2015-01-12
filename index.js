@@ -9,7 +9,7 @@ function LESSCompiler(config) {
   this.config = config.plugins.less || {};
   this.rootPath = config.paths.root;
   this.optimize = config.optimize;
-  this.getDependencies = progeny({rootPath: this.rootPath});
+  this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
 }
 
 LESSCompiler.prototype.brunchPlugin = true;
