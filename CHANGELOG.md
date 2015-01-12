@@ -1,3 +1,6 @@
+# less-brunch 1.8.1 (12 January 2015)
+* Fix getDependencies bug
+
 # less-brunch 1.8.0 (11 January 2015)
 * Updated LESS to ^2.2.0
 * Still compatible with Brunch v1.7.x
