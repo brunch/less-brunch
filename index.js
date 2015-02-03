@@ -8,7 +8,9 @@ function LESSCompiler(config) {
 
   this.config = config.plugins.less || {};
   this.rootPath = config.paths.root;
-  this.optimize = config.optimize;
+  if (config.optimize) {
+    this.config.dumpLineNumbers = false;
+  }
   this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
 }
 
@@ -20,11 +22,9 @@ LESSCompiler.prototype.compile = function(params, callback) {
   var data = params.data;
   var path = params.path;
 
-  less.render(data, {
-    paths: [this.rootPath, sysPath.dirname(path)],
-    filename: path,
-    dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
-  }, function(error, output) {
+  this.config.paths = [this.rootPath, sysPath.dirname(path)];
+  this.config.filename = path;
+  less.render(data, this.config, function(error, output) {
     if (error != null) {
       var err;
       err = '' + error.type + 'Error:' + error.message;
