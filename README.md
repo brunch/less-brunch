@@ -7,12 +7,23 @@ Adds [LESS](http://lesscss.org/) support to
 
 ### Options
 Print source-file references in output by setting `dumpLineNumbers` in your
-`brunch-config`:
+`brunch-config` (only available when `optimize` option is disabled):
 
 ```coffee
   plugins:
     less:
       dumpLineNumbers: 'comments' # other options: 'mediaquery', 'all'
+```
+
+Set or override global variables using `globalVars` and `modifyVars` respectively.
+
+```coffee
+  plugins:
+    less:
+      globalVars:
+        requiredColor: '#abcdef'
+      modifyVars: {
+        overridableColor: '#123456'
 ```
 
 ## License
