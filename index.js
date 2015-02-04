@@ -1,17 +1,17 @@
 var less = require('less');
 var sysPath = require('path');
 var progeny = require('progeny');
-var _ = require('underscore');
+var extend = require('util-extend');
 
 function LESSCompiler(config) {
   if (config == null) config = {};
   if (config.plugins == null) config.plugins = {};
 
-  this.options = _.extend({}, config.plugins.less);
-  this.rootPath = config.paths.root;
+  this.options = extend({}, config.plugins.less);
   if (config.optimize) {
     this.options.dumpLineNumbers = false;
   }
+  this.rootPath = config.paths.root;
   this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
 }
 
@@ -23,10 +23,9 @@ LESSCompiler.prototype.compile = function(params, callback) {
   var data = params.data;
   var path = params.path;
 
-  var options = _.extend({}, this.options, {
-    paths: [this.rootPath, sysPath.dirname(path)],
-    filename: path
-  });
+  var options = extend({}, this.options);
+  options.paths = [this.rootPath, sysPath.dirname(path)];
+  options.filename = path;
   less.render(data, options, function(error, output) {
     if (error != null) {
       var err;
