@@ -18,21 +18,19 @@ describe('Plugin', function() {
 
   it('should compile and produce valid result', function(done) {
     var content = '@color: #4D926F; #header {color: @color;}';
-    var expected = '#header {\n  color: #4d926f;\n}\n';
+    var expected = '#header {\n  color: #4D926F;\n}\n';
 
-    plugin.compile({data: content, path: 'style.less'}, function(error, result) {
-      expect(error).not.to.be.ok;
-      expect(result.data).to.equal(expected)
+    plugin.compile({data: content, path: 'style.less'}).then(result => {
+      expect(result.data).to.equal(expected);
       done();
-    });
+    }, error => expect(error).not.to.be.ok);
   });
 
   it('should handle invalid less gracefully', function(done) {
     var content = '#header {color: @color;}';
     var expected = 'NameError:variable @color is undefined in "style.less:1:16"';
 
-    plugin.compile({data: content, path: 'style.less'}, function(error, result) {
-      expect(error).to.be.ok;
+    plugin.compile({data: content, path: 'style.less'}).then(null, error => {
       expect(error).to.equal(expected);
       done();
     });

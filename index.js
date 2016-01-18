@@ -1,42 +1,47 @@
-var less = require('less');
-var sysPath = require('path');
-var progeny = require('progeny');
+'use strict';
 
-function LESSCompiler(config) {
-  if (config == null) config = {};
-  if (config.plugins == null) config.plugins = {};
+const less = require('less');
+const sysPath = require('path');
+const progeny = require('progeny');
 
-  this.config = config.plugins.less || {};
-  this.rootPath = config.paths.root;
-  this.optimize = config.optimize;
-  this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
+class LESSCompiler {
+  constructor(config) {
+    if (config == null) config = {};
+
+    this.config = config && config.plugins && config.plugins.less || {};
+    this.rootPath = config.paths.root;
+    this.optimize = config.optimize;
+    this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
+  }
+
+  compile(params) {
+    const data = params.data;
+    const path = params.path;
+
+    return new Promise((resolve, reject) => {
+      less.render(data, {
+        paths: [this.rootPath, sysPath.dirname(path)],
+        filename: path,
+        dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
+      }, (error, output) => {
+        //console.log(error, output);
+        if (error) {
+          let err;
+          err = '' + error.type + 'Error:' + error.message;
+          if (error.filename) {
+            err += ' in "' + error.filename + ':' + error.line + ':' + error.column + '"';
+          }
+          return reject(err);
+        }
+        return resolve({data: output.css});
+      });
+    });
+  }
 }
 
 LESSCompiler.prototype.brunchPlugin = true;
 LESSCompiler.prototype.type = 'stylesheet';
 LESSCompiler.prototype.extension = 'less';
 
-LESSCompiler.prototype.compile = function(params, callback) {
-  var data = params.data;
-  var path = params.path;
-
-  less.render(data, {
-    paths: [this.rootPath, sysPath.dirname(path)],
-    filename: path,
-    dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
-  }, function(error, output) {
-    if (error != null) {
-      var err;
-      err = '' + error.type + 'Error:' + error.message;
-      if (error.filename) {
-        err += ' in "' + error.filename + ':' + error.line + ':' + error.column + '"';
-      }
-      return callback(err);
-    }
-    return callback(error, {
-      data: output.css
-    });
-  });
-};
 
 module.exports = LESSCompiler;
