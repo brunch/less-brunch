@@ -22,6 +22,7 @@ class LESSCompiler {
       less.render(data, {
         paths: [this.rootPath, sysPath.dirname(path)],
         filename: path,
+        plugins: this.config.plugins,
         dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
       }, (error, output) => {
         //console.log(error, output);
