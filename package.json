@@ -13,8 +13,8 @@
     "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha"
   },
   "dependencies": {
-    "less": "^2.5.3",
-    "progeny": "^0.5.0"
+    "less": "~2.5.3",
+    "progeny": "~0.5.0"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
