@@ -11,7 +11,19 @@ class LESSCompiler {
     this.config = config && config.plugins && config.plugins.less || {};
     this.rootPath = config.paths.root;
     this.optimize = config.optimize;
-    this.getDependencies = progeny({rootPath: this.rootPath, reverseArgs: true});
+  }
+
+  getDependencies(sourceContents, file, callback) {
+    progeny({rootPath: this.rootPath})(file, sourceContents, (err, deps) => {
+      if (!err) {
+        const re = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
+        let match;
+        while (match = re.exec(sourceContents)) {
+          deps.push(sysPath.join(sysPath.dirname(file), match[2]));
+        }
+      }
+      callback(err, deps);
+    });
   }
 
   compile(params) {

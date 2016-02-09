@@ -1,3 +1,5 @@
+var fs = require('fs');
+var path = require('path');
 var expect = require('chai').expect;
 var Plugin = require('./');
 
@@ -32,6 +34,18 @@ describe('Plugin', function() {
 
     plugin.compile({data: content, path: 'style.less'}).then(null, error => {
       expect(error).to.equal(expected);
+      done();
+    });
+  });
+
+  it('should correctly identify stylesheet and data-uri dependencies', function(done) {
+    var file = 'test-files/test-dependency-resolution.less';
+    var content = fs.readFileSync(path.join(__dirname, file));
+
+
+    plugin.getDependencies(content, file, (error, deps) => {
+      expect(error).to.be.null();
+      expect(deps).to.eql(['test-files/test-include.less', 'test-files/img/foo.jpg']);
       done();
     });
   });
