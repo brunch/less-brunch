@@ -15,6 +15,38 @@ Print source-file references in output by setting `dumpLineNumbers` in your
       dumpLineNumbers: 'comments' # other options: 'mediaquery', 'all'
 ```
 
+### CSS Modules
+Starting Brunch `<unreleased>`, you can use CSS Modules with less-brunch. To enable it, change your config to:
+
+```javascript
+module.exports = {
+  // ...
+  plugins: {
+    less: {
+      cssModules: true
+    }
+  }
+};
+```
+
+Then, author your styles like you normally would:
+
+```less
+.title {
+  font-size: 32px;
+}
+```
+
+And reference CSS class names by requiring the specific style into your javascript:
+
+```javascript
+var style = require('./title.less');
+
+<h1 className={style.title}>Yo</h1>
+```
+
+Note: enabling `cssModules` does so for every stylesheet in your project, so it's all-or-nothing. Even the files you don't require will be transformed into CSS modules (aka will have obfuscated class names, like turn `.title` into `._title_fdphn_1`).
+
 ## License
 
 The MIT License (MIT)

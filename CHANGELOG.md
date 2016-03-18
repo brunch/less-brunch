@@ -1,3 +1,6 @@
+# less-brunch `<unreleased>`
+* Added support for CSS Modules with Brunch `<unreleased>`.
+
 # less-brunch 2.0.0 (Jan 29, 2016)
 * Updated source code & API. The plugin would now only work with Brunch 2.2 and higher.
 
