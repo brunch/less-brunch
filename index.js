@@ -35,7 +35,8 @@ class LESSCompiler {
         paths: [this.rootPath, sysPath.dirname(path)],
         filename: path,
         plugins: this.config.plugins,
-        dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
+        dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers,
+        sourceMap: {}
       }, (error, output) => {
         //console.log(error, output);
         if (error) {
@@ -46,7 +47,7 @@ class LESSCompiler {
           }
           return reject(err);
         }
-        return resolve({data: output.css});
+        return resolve({data: output.css, map: output.map});
       });
     });
   }
