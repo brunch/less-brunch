@@ -10,7 +10,6 @@ class LESSCompiler {
 
     this.config = config && config.plugins && config.plugins.less || {};
     this.rootPath = config.paths.root;
-    this.optimize = config.optimize;
   }
 
   getDependencies(sourceContents, file, callback) {
@@ -29,14 +28,13 @@ class LESSCompiler {
   compile(params) {
     const data = params.data;
     const path = params.path;
-
+    const config = Object.assign({}, this.config, {
+      paths: [this.rootPath, sysPath.dirname(path)],
+      filename: path,
+    });
+    
     return new Promise((resolve, reject) => {
-      less.render(data, {
-        paths: [this.rootPath, sysPath.dirname(path)],
-        filename: path,
-        plugins: this.config.plugins,
-        dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
-      }, (error, output) => {
+      less.render(data, config, (error, output) => {
         //console.log(error, output);
         if (error) {
           let err;
