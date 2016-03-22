@@ -30,9 +30,9 @@ class LESSCompiler {
     const path = params.path;
     const config = Object.assign({}, this.config, {
       paths: [this.rootPath, sysPath.dirname(path)],
-      filename: path,
+      filename: path
     });
-    
+
     return new Promise((resolve, reject) => {
       less.render(data, config, (error, output) => {
         //console.log(error, output);
