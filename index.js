@@ -4,6 +4,19 @@ const less = require('less');
 const sysPath = require('path');
 const progeny = require('progeny');
 
+const postcss = require('postcss');
+const postcssModules = require('postcss-modules');
+
+const cssModulify = (path, data, map) => {
+  let json = {};
+  const getJSON = (_, _json) => json = _json;
+
+  return postcss([postcssModules({getJSON})]).process(data, {from: path, map}).then(x => {
+    const exports = 'module.exports = ' + JSON.stringify(json) + ';';
+    return { data: x.css, map: x.map, exports };
+  });
+};
+
 class LESSCompiler {
   constructor(config) {
     if (config == null) config = {};
@@ -46,7 +59,11 @@ class LESSCompiler {
           }
           return reject(err);
         }
-        return resolve({data: output.css});
+        if (this.config.cssModules) {
+          cssModulify(path, output.css).then(resolve, reject);
+        } else {
+          resolve({data: output.css});
+        }
       });
     });
   }
