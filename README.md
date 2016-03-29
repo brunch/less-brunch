@@ -6,14 +6,17 @@ Adds [LESS](http://lesscss.org/) support to
 `npm install --save less-brunch`
 
 ### Options
-Print source-file references in output by setting `dumpLineNumbers` in your
-`brunch-config`:
+Pass options as per [lessc's documentation](http://lesscss.org/usage/index.html) in your `brunch-config`,
+e.g. print source-file references in output by setting `dumpLineNumbers`.
 
 ```coffee
   plugins:
     less:
       dumpLineNumbers: 'comments' # other options: 'mediaquery', 'all'
 ```
+Note that some options are overwritten: `paths` and `filename` are set by the plugin.
+In production mode line numbers are suppressed.
+
 
 ### CSS Modules
 Starting Brunch `<unreleased>`, you can use CSS Modules with less-brunch. To enable it, change your config to:
