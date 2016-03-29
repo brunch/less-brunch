@@ -15,6 +15,7 @@ e.g. print source-file references in output by setting `dumpLineNumbers`.
       dumpLineNumbers: 'comments' # other options: 'mediaquery', 'all'
 ```
 Note that some options are overwritten: `paths` and `filename` are set by the plugin.
+In production mode line numbers are suppressed.
 
 
 ## License

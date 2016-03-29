@@ -10,6 +10,7 @@ class LESSCompiler {
 
     this.config = config && config.plugins && config.plugins.less || {};
     this.rootPath = config.paths.root;
+    this.optimize = config.optimize;
   }
 
   getDependencies(sourceContents, file, callback) {
@@ -30,7 +31,8 @@ class LESSCompiler {
     const path = params.path;
     const config = Object.assign({}, this.config, {
       paths: [this.rootPath, sysPath.dirname(path)],
-      filename: path
+      filename: path,
+      dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
     });
 
     return new Promise((resolve, reject) => {
