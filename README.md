@@ -19,14 +19,14 @@ In production mode line numbers are suppressed.
 
 
 ### CSS Modules
-Starting Brunch `<unreleased>`, you can use CSS Modules with less-brunch. To enable it, change your config to:
+Starting Brunch `2.6`, you can use CSS Modules with less-brunch. To enable it, change your config to:
 
 ```javascript
 module.exports = {
   // ...
   plugins: {
     less: {
-      cssModules: true
+      modules: true
     }
   }
 };

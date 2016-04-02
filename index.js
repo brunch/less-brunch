@@ -24,6 +24,9 @@ class LESSCompiler {
     this.config = config && config.plugins && config.plugins.less || {};
     this.rootPath = config.paths.root;
     this.optimize = config.optimize;
+    this.modules = this.config.modules || this.config.cssModules;
+    delete this.config.modules;
+    delete this.config.cssModules;
   }
 
   getDependencies(sourceContents, file, callback) {
@@ -59,7 +62,7 @@ class LESSCompiler {
           }
           return reject(err);
         }
-        if (this.config.cssModules) {
+        if (this.modules) {
           cssModulify(path, output.css).then(resolve, reject);
         } else {
           resolve({data: output.css});
