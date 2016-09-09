@@ -10,7 +10,7 @@
     "url": "git@github.com:brunch/less-brunch.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha"
+    "test": "eslint index.js && mocha"
   },
   "dependencies": {
     "less": "~2.5.3",
