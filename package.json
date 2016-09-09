@@ -4,7 +4,11 @@
   "description": "Adds LESS support to brunch.",
   "author": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/brunch/less-brunch",
-  "keywords": ["brunchplugin", "less", "stylesheet"],
+  "keywords": [
+    "brunchplugin",
+    "less",
+    "stylesheet"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:brunch/less-brunch.git"
@@ -13,10 +17,10 @@
     "test": "eslint index.js && mocha"
   },
   "dependencies": {
-    "less": "~2.5.3",
-    "progeny": "~0.5.0",
+    "less": "~2.7.1",
     "postcss": "~5.0.19",
-    "postcss-modules": "~0.4.0"
+    "postcss-modules": "~0.4.0",
+    "progeny": "~0.5.0"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
