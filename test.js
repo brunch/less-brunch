@@ -45,7 +45,10 @@ describe('Plugin', function() {
 
     plugin.getDependencies(content, file, (error, deps) => {
       expect(error).to.be.null();
-      expect(deps).to.eql(['test-files/test-include.less', 'test-files/img/foo.jpg']);
+      expect(deps).to.eql([
+        path.join('test-files', 'test-include.less'),
+        path.join('test-files', 'img', 'foo.jpg')
+      ]);
       done();
     });
   });
