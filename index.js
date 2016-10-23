@@ -30,15 +30,18 @@ class LESSCompiler {
   }
 
   getDependencies(file) {
-    progeny({rootPath: this.rootPath})(file.path, file.data, (err, deps) => {
-      if (!err) {
-        const re = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
-        let match;
-        while (match = re.exec(file.data)) {
-          deps.push(sysPath.join(sysPath.dirname(file.path), match[2]));
+    return new Promise((resolve, reject) => {
+      progeny({rootPath: this.rootPath})(file.path, file.data, (err, deps) => {
+        if (!err) {
+          const re = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
+          let match;
+          while (match = re.exec(file.data)) {
+            deps.push(sysPath.join(sysPath.dirname(file.path), match[2]));
+          }
         }
-      }
-      callback(err, deps);
+        if (err) reject(err);
+        else resolve(deps);
+      });
     });
   }
 
