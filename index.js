@@ -29,22 +29,22 @@ class LESSCompiler {
     delete this.config.cssModules;
   }
 
-  getDependencies(sourceContents, file, callback) {
-    progeny({rootPath: this.rootPath})(file, sourceContents, (err, deps) => {
+  getDependencies(file) {
+    progeny({rootPath: this.rootPath})(file.path, file.data, (err, deps) => {
       if (!err) {
         const re = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
         let match;
-        while (match = re.exec(sourceContents)) {
-          deps.push(sysPath.join(sysPath.dirname(file), match[2]));
+        while (match = re.exec(file.data)) {
+          deps.push(sysPath.join(sysPath.dirname(file.path), match[2]));
         }
       }
       callback(err, deps);
     });
   }
 
-  compile(params) {
-    const data = params.data;
-    const path = params.path;
+  compile(file) {
+    const data = file.data;
+    const path = file.path;
     const config = Object.assign({}, this.config, {
       paths: [this.rootPath, sysPath.dirname(path)],
       filename: path,
