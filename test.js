@@ -46,8 +46,7 @@ describe('Plugin', () => {
     var content = fs.readFileSync(path.join(__dirname, file));
 
 
-    plugin.getDependencies(content, file, (error, deps) => {
-      expect(error).to.be.null();
+    plugin.getDependencies({data: content, path: file}).then(deps => {
       expect(deps).to.eql([
         path.join('test-files', 'test-include.less'),
         path.join('test-files', 'img', 'foo.jpg')
