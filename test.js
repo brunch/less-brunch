@@ -8,7 +8,7 @@ const join = require('path').join;
 const expect = require('chai').expect;
 const LESSCompiler = require('./');
 
-describe('Plugin', () => {
+describe('less-brunch', () => {
   let plugin;
 
   beforeEach(() => {
