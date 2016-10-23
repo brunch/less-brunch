@@ -19,11 +19,10 @@ const cssModulify = (path, data, map) => {
 
 class LESSCompiler {
   constructor(config) {
-    if (config == null) config = {};
-
-    this.config = config && config.plugins && config.plugins.less || {};
+    this.config = config.plugins.less || {};
     this.rootPath = config.paths.root;
     this.optimize = config.optimize;
+
     this.modules = this.config.modules || this.config.cssModules;
     delete this.config.modules;
     delete this.config.cssModules;
@@ -54,23 +53,15 @@ class LESSCompiler {
       dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
     });
 
-    return new Promise((resolve, reject) => {
-      less.render(data, config, (error, output) => {
-        //console.log(error, output);
-        if (error) {
-          let err;
-          err = '' + error.type + 'Error:' + error.message;
-          if (error.filename) {
-            err += ' in "' + error.filename + ':' + error.line + ':' + error.column + '"';
-          }
-          return reject(err);
-        }
-        if (this.modules) {
-          cssModulify(path, output.css).then(resolve, reject);
-        } else {
-          resolve({data: output.css});
-        }
-      });
+    return less.render(data, config).then(output => {
+      const data = output.css;
+      return this.modules ? cssModulify(path, data) : {data};
+    }, err => {
+      let msg = `${err.type}Error: ${err.message}`;
+      if (err.filename) {
+        msg += ` in "${err.filename}:${err.line}:${err.column}"`;
+      }
+      throw msg;
     });
   }
 }
