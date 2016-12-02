@@ -3,7 +3,7 @@ Adds [LESS](http://lesscss.org/) support to
 [brunch](http://brunch.io).
 
 ## Usage
-`npm install --save less-brunch`
+`npm install --save-dev less-brunch`
 
 ### Options
 Pass options as per [lessc's documentation](http://lesscss.org/usage/index.html) in your `brunch-config`,
