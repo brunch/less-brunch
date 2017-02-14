@@ -45,16 +45,15 @@ class LESSCompiler {
     });
   }
 
+  // If old API is used, then invoke callback
+  // It's needed, because older Brunch doesn't promisify this method
+  // Otherwise, just return a promise
   getDependencies(data, path, cb) {
-    // If old API is used, then invoke callback
-    // It's needed, because older Brunch doesn't promisify this method
     if (path && cb) {
       return this._deps({data, path})
         .then(deps => cb(null, deps))
         .catch(err => cb(err));
     }
-
-    // Otherwise, just return a promise
     return this._deps(data);
   }
 
