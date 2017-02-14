@@ -28,7 +28,8 @@ class LESSCompiler {
     delete this.config.cssModules;
   }
 
-  getDependencies(file) {
+  // Get dependencies from file
+  _deps(file) {
     return new Promise((resolve, reject) => {
       progeny({rootPath: this.rootPath})(file.path, file.data, (err, deps) => {
         if (!err) {
@@ -42,6 +43,18 @@ class LESSCompiler {
         else resolve(deps);
       });
     });
+  }
+
+  // If old API is used, then invoke callback
+  // It's needed, because older Brunch doesn't promisify this method
+  // Otherwise, just return a promise
+  getDependencies(data, path, cb) {
+    if (path && cb) {
+      return this._deps({data, path})
+        .then(deps => cb(null, deps))
+        .catch(err => cb(err));
+    }
+    return this._deps(data);
   }
 
   compile(file) {
