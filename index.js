@@ -17,6 +17,17 @@ const cssModulify = (path, data, map) => {
   });
 };
 
+const formatError = path => err => {
+  let msg = `${err.type}Error: ${err.message}`;
+  if (err.filename) {
+    const fn = err.filename === path ? '' : ` of ${err.filename}`;
+    msg = `L${err.line}:${err.column}${fn} ${msg}`;
+  }
+  const error = new Error(msg);
+  error.name = '';
+  throw error;
+};
+
 class LESSCompiler {
   constructor(config) {
     this.config = config.plugins.less || {};
@@ -69,13 +80,7 @@ class LESSCompiler {
     return less.render(data, config).then(output => {
       const data = output.css;
       return this.modules ? cssModulify(path, data) : {data};
-    }, err => {
-      let msg = `${err.type}Error: ${err.message}`;
-      if (err.filename) {
-        msg += ` in "${err.filename}:${err.line}:${err.column}"`;
-      }
-      throw msg;
-    });
+    }, formatError(path));
   }
 }
 

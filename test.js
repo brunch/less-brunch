@@ -41,10 +41,10 @@ describe('less-brunch', () => {
 
   it('should handle invalid less gracefully', () => {
     const data = '#header {color: @color;}';
-    const expected = 'NameError: variable @color is undefined in "style.less:1:16"';
+    const expected = 'L1:16 NameError: variable @color is undefined';
 
     return plugin.compile({data, path: 'style.less'}).catch(error => {
-      expect(error).to.equal(expected);
+      expect(error.toString()).to.equal(expected);
     });
   });
 
