@@ -6,6 +6,7 @@ const progeny = require('progeny');
 
 const postcss = require('postcss');
 const postcssModules = require('postcss-modules');
+const anymatch = require('anymatch');
 
 const cssModulify = (path, data, map) => {
   let json = {};
@@ -35,6 +36,9 @@ class LESSCompiler {
     this.optimize = config.optimize;
 
     this.modules = this.config.modules || this.config.cssModules;
+    
+    this.isIgnored = anymatch(this.config.ignore);
+    
     delete this.config.modules;
     delete this.config.cssModules;
   }
@@ -76,6 +80,8 @@ class LESSCompiler {
       filename: path,
       dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
     });
+
+    if (this.isIgnored(file.path)) return Promise.resolve(file);
 
     return less.render(data, config).then(output => {
       const data = output.css;
