@@ -87,6 +87,6 @@ class LESSCompiler {
 LESSCompiler.prototype.brunchPlugin = true;
 LESSCompiler.prototype.type = 'stylesheet';
 LESSCompiler.prototype.extension = 'less';
-
+LESSCompiler.prototype.targetExtension = 'css';
 
 module.exports = LESSCompiler;
