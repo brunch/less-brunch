@@ -71,8 +71,10 @@ class LESSCompiler {
   compile(file) {
     const data = file.data;
     const path = file.path;
+    const paths = [this.rootPath, sysPath.dirname(path)]
+          .concat(this.config.options.includePaths);
     const config = Object.assign({}, this.config, {
-      paths: [this.rootPath, sysPath.dirname(path)],
+      paths: paths,
       filename: path,
       dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
     });
