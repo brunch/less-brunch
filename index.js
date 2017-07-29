@@ -78,11 +78,12 @@ class LESSCompiler {
       paths: [this.rootPath, sysPath.dirname(path), ...this.includePaths],
       filename: path,
       dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers,
+      sourceMap: {},
     });
 
-    return less.render(data, config).then(output => {
-      const data = output.css;
-      return this.modules ? cssModulify(path, data) : {data};
+    return less.render(data, config).then(res => {
+      const data = res.css;
+      return this.modules ? cssModulify(path, data) : {data, map: res.map};
     }, formatError(path));
   }
 }

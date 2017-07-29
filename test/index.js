@@ -21,7 +21,9 @@ describe('less-brunch', () => {
 
   beforeEach(() => {
     plugin = new LESSCompiler({
-      paths: {root: '.'},
+      paths: {
+        root: '.',
+      },
       plugins: {
         less: {
           includePaths: [join(fixtures, 'include-paths')],
@@ -44,6 +46,15 @@ describe('less-brunch', () => {
 
     return plugin.compile({data, path: 'style.less'}).then(result => {
       expect(result.data).to.equal(compiled);
+    });
+  });
+
+  it('should generate valid source map', () => {
+    const data = '@color: #4D926F; #header {color: @color;}';
+    const compiled = '#header {\n  color: #4D926F;\n}\n';
+
+    return plugin.compile({data, path: 'style.less'}).then(result => {
+      expect(JSON.parse(result.map)).to.be.an('object');
     });
   });
 
