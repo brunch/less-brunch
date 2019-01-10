@@ -1,6 +1,8 @@
 # less-brunch `<unreleased>`
 * Added support for CSS Modules with Brunch.
 * Added ability to pass any options to the less compiler.
+* Updated LESS to latest 3.9.x
+* Updated PostCSS to latest 7.0.x
 
 # less-brunch 2.0.0 (Jan 29, 2016)
 * Updated source code & API. The plugin would now only work with Brunch 2.2 and higher.
