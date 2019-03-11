@@ -6,14 +6,17 @@ const progeny = require('progeny');
 
 const postcss = require('postcss');
 const postcssModules = require('postcss-modules');
+const dataUri = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
 
 const cssModulify = (path, data, map) => {
   let json = {};
-  const getJSON = (_, _json) => json = _json;
+  const getJSON = (_, _json) => {
+    json = _json;
+  };
 
   return postcss([postcssModules({getJSON})]).process(data, {from: path, map}).then(x => {
-    const exports = 'module.exports = ' + JSON.stringify(json) + ';';
-    return { data: x.css, map: x.map, exports };
+    const exports = `module.exports = ${JSON.stringify(json)};`;
+    return {data: x.css, map: x.map, exports};
   });
 };
 
@@ -37,6 +40,9 @@ class LESSCompiler {
     this.modules = this.config.modules || this.config.cssModules;
     delete this.config.modules;
     delete this.config.cssModules;
+
+    this.includePaths = [].concat(this.config.includePaths || []);
+    delete this.config.includePaths;
   }
 
   // Get dependencies from file
@@ -44,11 +50,10 @@ class LESSCompiler {
     return new Promise((resolve, reject) => {
       progeny({rootPath: this.rootPath})(file.path, file.data, (err, deps) => {
         if (!err) {
-          const re = /data-uri\s*\(\s*("|'|)([^)]*)\1\s*\)/g;
-          let match;
-          while (match = re.exec(file.data)) {
-            deps.push(sysPath.join(sysPath.dirname(file.path), match[2]));
-          }
+          const dir = sysPath.dirname(file.path);
+          file.data.replace(dataUri, (_, __, dep) => {
+            deps.push(sysPath.join(dir, dep));
+          });
         }
         if (err) reject(err);
         else resolve(deps);
@@ -68,20 +73,17 @@ class LESSCompiler {
     return this._deps(data);
   }
 
-  compile(file) {
-    const data = file.data;
-    const path = file.path;
-    const paths = [this.rootPath, sysPath.dirname(path)]
-          .concat(this.config.options.includePaths);
+  compile({data, path}) {
     const config = Object.assign({}, this.config, {
-      paths: paths,
+      paths: [this.rootPath, sysPath.dirname(path), ...this.includePaths],
       filename: path,
-      dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers
+      dumpLineNumbers: !this.optimize && this.config.dumpLineNumbers,
+      sourceMap: {},
     });
 
-    return less.render(data, config).then(output => {
-      const data = output.css;
-      return this.modules ? cssModulify(path, data) : {data};
+    return less.render(data, config).then(res => {
+      const data = res.css;
+      return this.modules ? cssModulify(path, data) : {data, map: res.map};
     }, formatError(path));
   }
 }
@@ -89,6 +91,5 @@ class LESSCompiler {
 LESSCompiler.prototype.brunchPlugin = true;
 LESSCompiler.prototype.type = 'stylesheet';
 LESSCompiler.prototype.extension = 'less';
-
 
 module.exports = LESSCompiler;

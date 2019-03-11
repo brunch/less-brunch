@@ -1,21 +1,20 @@
 ## less-brunch
-Adds [LESS](http://lesscss.org/) support to
-[brunch](http://brunch.io).
+Adds [LESS](http://lesscss.org/) support to [Brunch](http://brunch.io).
 
 ## Usage
 `npm install --save-dev less-brunch`
 
 ### Options
-Pass options as per [lessc's documentation](http://lesscss.org/usage/index.html) in your `brunch-config`,
+Pass options as per [LESS documentation](http://lesscss.org/usage/#using-less-in-the-browser-options) in your `brunch-config.js`,
 e.g. print source-file references in output by setting `dumpLineNumbers`.
 
-```javascript
+```js
 module.exports = {
   // ...
   plugins: {
     less: {
-      dumpLineNumbers: 'comments' // other values: 'mediaquery', 'all'
-      // ... other options
+      dumpLineNumbers: 'comments', // other values: 'mediaquery', 'all'
+      includePaths: ['node_modules/fancy-framework/less'],
     }
   }
 };
@@ -27,7 +26,7 @@ In production mode line numbers are suppressed.
 ### CSS Modules
 Starting Brunch `2.6`, you can use CSS Modules with less-brunch. To enable it, change your config to:
 
-```javascript
+```js
 module.exports = {
   // ...
   plugins: {
@@ -48,7 +47,7 @@ Then, author your styles like you normally would:
 
 And reference CSS class names by requiring the specific style into your javascript:
 
-```javascript
+```js
 var style = require('./title.less');
 
 <h1 className={style.title}>Yo</h1>
